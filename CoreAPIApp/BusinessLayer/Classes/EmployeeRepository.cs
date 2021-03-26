@@ -14,10 +14,10 @@ namespace CoreAPIApp.BusinessLayer.Classes
     public class EmployeeRepository : RepositoryBase,IEmployeeRepository
     {
         private readonly ISqlDataAccess sqlDataAccess;
-        public EmployeeRepository(IDbTransaction transaction) : base(transaction) //ISqlDataAccess sqlDataAccess, 
+        public EmployeeRepository(IDbConnection connection ,IDbTransaction transaction) : base(connection,transaction) //ISqlDataAccess sqlDataAccess, 
         {
             //this.sqlDataAccess = sqlDataAccess;
-            this.sqlDataAccess = new SqlDataAccess(transaction);
+            this.sqlDataAccess = new SqlDataAccess(connection,transaction);
         }
         public Task<EmployeeModel> Delete(EmployeeModel model)
         {

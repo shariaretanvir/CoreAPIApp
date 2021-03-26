@@ -9,10 +9,11 @@ namespace CoreAPIApp.BusinessLayer.Classes
     public abstract class RepositoryBase
     {
         protected IDbTransaction Transaction { get; private set; }
-        protected IDbConnection Connection { get { return Transaction.Connection; } }
-
-        public RepositoryBase(IDbTransaction dbTransaction)
+        //protected IDbConnection Connection { get { return Transaction.Connection; } }
+        protected IDbConnection Connection { get; private set; }
+        public RepositoryBase(IDbConnection connection ,IDbTransaction dbTransaction)
         {
+            this.Connection = connection;
             this.Transaction = dbTransaction;
         }
     }

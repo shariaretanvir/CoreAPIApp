@@ -14,9 +14,9 @@ namespace DAL.DataAccessLayer
     {
         private readonly IDbConnection connection;
         private readonly IDbTransaction transaction;
-        public SqlDataAccess(IDbTransaction dbTransaction)
+        public SqlDataAccess(IDbConnection connection,IDbTransaction dbTransaction)
         {
-            this.connection = dbTransaction.Connection;
+            this.connection = connection;
             this.transaction = dbTransaction;
         }
         public async Task<int> Execute<T>(string sql, T data)
@@ -26,7 +26,7 @@ namespace DAL.DataAccessLayer
             //{
                 try
                 {
-                    return await transaction.Connection.ExecuteAsync(sql, data);
+                    return await connection.ExecuteAsync(sql, data, transaction);
                 }
                 catch(Exception e)
                 {

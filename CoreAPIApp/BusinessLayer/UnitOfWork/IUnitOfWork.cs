@@ -12,6 +12,7 @@ namespace CoreAPIApp.BusinessLayer.UnitOfWork
         IEmployeeRepository1 EmployeeRepository1 { get; }
 
         void Commit();
+        void InitTransaction();
         void Rollback();
     }
 }

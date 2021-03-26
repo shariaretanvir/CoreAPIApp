@@ -23,16 +23,16 @@ namespace CoreAPIApp.BusinessLayer.UnitOfWork
         {
             _connection = new SqlConnection("Server = DESKTOP-AKASH\\SQLEXPRESS; Database =TestDB;Trusted_Connection=True;");
             _connection.Open();
-            _transaction = _connection.BeginTransaction();
+            //_transaction = _connection.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
             //this.sqlDataAccess = sqlDataAccess;            
         }
 
         public IEmployeeRepository EmployeeRepository {
-            get { return employeeRepository ?? (employeeRepository = new EmployeeRepository(_transaction)); } 
+            get { return employeeRepository ?? (employeeRepository = new EmployeeRepository(_connection ,_transaction)); } 
         }
 
         public IEmployeeRepository1 EmployeeRepository1 {
-            get { return employeeRepository1 ?? (employeeRepository1 = new EmployeeRepository1(_transaction)); }
+            get { return employeeRepository1 ?? (employeeRepository1 = new EmployeeRepository1(_connection,_transaction)); }
         }
 
         public void Commit()
@@ -52,6 +52,10 @@ namespace CoreAPIApp.BusinessLayer.UnitOfWork
             }
         }
 
+        public void InitTransaction()
+        {
+            _transaction = _connection.BeginTransaction(IsolationLevel.ReadCommitted);
+        }
         public void Rollback()
         {
             _transaction.Rollback();

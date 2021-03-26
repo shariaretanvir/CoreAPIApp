@@ -31,6 +31,7 @@ namespace CoreAPIApp.Controllers
         public async Task<IActionResult> GetAllEmployee()
         {
             try {
+                unitOfWork.InitTransaction();
                 var task1 = await unitOfWork.EmployeeRepository.Save(new EmployeeModel
                 {
                     EmployeeId = 0,
